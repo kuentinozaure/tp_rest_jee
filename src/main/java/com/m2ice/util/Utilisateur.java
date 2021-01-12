@@ -23,6 +23,16 @@ public class Utilisateur {
             id = getNewId();
     }
     
+    public Utilisateur(String prenom, String nom, String id) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.id = id;
+        
+        if (id==null)
+            id = getNewId();
+        
+    }
+    
     public String toXML() {
         return "<UTILISATEUR ID=\""+id+"\" NOM=\""+nom+"\"  PRENOM=\""+prenom+"\" />";
     }
