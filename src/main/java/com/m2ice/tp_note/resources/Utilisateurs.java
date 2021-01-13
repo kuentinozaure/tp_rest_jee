@@ -5,6 +5,7 @@
  */
 package com.m2ice.tp_note.resources;
 
+import com.m2ice.util.Contexte;
 import com.m2ice.util.Utilisateur;
 import java.util.ArrayList;
 import javax.ws.rs.DELETE;
@@ -24,24 +25,26 @@ import javax.ws.rs.core.MediaType;
 public class Utilisateurs {
     
     @GET
-    @Produces(MediaType.TEXT_XML)
-    public String getListOfUserApplication() {
-        ArrayList<Utilisateur> arrayUser = new ArrayList<>();
-        String returnValue = "";
-        
-        arrayUser.add(new Utilisateur("<UTILISATEUR NOM=\"tototo\" PRENOM=\"IT\"/>"));
-        arrayUser.add(new Utilisateur("titi", "super","2"));
-        
-        for (int i = 0; i< arrayUser.size(); i++) {
-            returnValue += arrayUser.get(i).toXML()+"\n";
-        }
-        System.out.println(returnValue);
-        return returnValue;
+    @Produces(MediaType.APPLICATION_JSON)
+    public ArrayList<Utilisateur> getListOfUserApplication() {
+        Contexte context = new Contexte();
+        ArrayList<Utilisateur> arrayUser = context.getUserList();
+//        String returnValue = "";
+//
+//        for (int i = 0; i < arrayUser.size(); i++) {
+//            returnValue += arrayUser.get(i).toXML() + "\n";
+//        }
+//        System.out.println(returnValue);
+        return arrayUser;
     }
     
     @POST
     public String createAnUser(String content) {
+        Contexte context = new Contexte();
+        ArrayList<Utilisateur> arrayUser = context.getUserList();
         Utilisateur user = new Utilisateur(content);
+        arrayUser.add(user);
+        context.setUserList(arrayUser);
         return user.toXML();
     }
     
@@ -49,10 +52,8 @@ public class Utilisateurs {
     @Path("/{id}")
     @Produces(MediaType.TEXT_XML)
     public String getUserById (@PathParam("id") String id) {
-        ArrayList<Utilisateur> arrayUser = new ArrayList<>();
-        
-        arrayUser.add(new Utilisateur("titi", "super","1"));
-        arrayUser.add(new Utilisateur("titi", "super","2"));
+        Contexte context = new Contexte();
+        ArrayList<Utilisateur> arrayUser = context.getUserList();
         
         for(int i =0; i< arrayUser.size(); i++) {
             if (arrayUser.get(i).getId().equals(id)){
@@ -66,13 +67,13 @@ public class Utilisateurs {
     @PUT 
     @Path("/{id}")
     public String updateUserById (@PathParam("id") String id, String content) {
-        ArrayList<Utilisateur> arrayUser = new ArrayList<>();
-        Utilisateur user ;
+        Contexte context = new Contexte();
+        ArrayList<Utilisateur> arrayUser = context.getUserList();
         Utilisateur putUser = new Utilisateur(content);
+        
+        Utilisateur user ;
         String returnValue = null;
         
-        arrayUser.add(new Utilisateur("tutu", "sp","1"));
-        arrayUser.add(new Utilisateur("tata", "tata","2"));
         
         for(int i =0; i< arrayUser.size(); i++) {
             if (arrayUser.get(i).getId().equals(id)){
@@ -90,6 +91,7 @@ public class Utilisateurs {
                 
                 // adding user in arraylist
                 arrayUser.add(user);
+                context.setUserList(arrayUser);
                 
                 returnValue =  user.toXML();
             }
@@ -103,14 +105,15 @@ public class Utilisateurs {
     @Path("/{id}")
     @Produces(MediaType.TEXT_XML)
     public String deleteUserById (@PathParam("id") String id) {
-        ArrayList<Utilisateur> arrayUser = new ArrayList<>();
-        
-        arrayUser.add(new Utilisateur("titi", "super","1"));
-        arrayUser.add(new Utilisateur("titi", "super","2"));
+        Contexte context = new Contexte();
+        ArrayList<Utilisateur> arrayUser = context.getUserList();
         
         for(int i =0; i< arrayUser.size(); i++) {
             if (arrayUser.get(i).getId().equals(id)){
+                Utilisateur user = arrayUser.get(i);
                 arrayUser.remove(i);
+                context.setUserList(arrayUser);
+                return user.toXML();
             }
         }
         return null;

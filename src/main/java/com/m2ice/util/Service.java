@@ -11,7 +11,9 @@ package com.m2ice.util;
  */
 public class Service {
     static int idCounter=0;
-    String nom, resume, uniteLocation,id, cout, reservationList;
+    String nom, resume, uniteLocation,id, cout, reservationList,createdBy;
+
+
     
     public Service(String xml)
     {
@@ -19,6 +21,7 @@ public class Service {
         resume = findAttribute(xml, "RESUME");
         uniteLocation = findAttribute(xml, "UNITELOC");
         cout = findAttribute(xml, "COUT");
+        createdBy = findAttribute(xml, "CREATEBY");
         reservationList = findAttribute(xml, "LISTRES");
         
         id = findAttribute(xml, "ID"); // Ne sert pas quand on fait un POST
@@ -35,7 +38,7 @@ public class Service {
     }
     
     public String toXML() {
-        return "<SERVICE ID=\"" + id + "\" NOM=\"" + nom + "\"  UNITELOC=\"" + uniteLocation + "\" COUT=\"" + cout + "\" LISTRES=\"" + reservationList + "\" />";
+        return "<SERVICE ID=\"" + id + "\" NOM=\"" + nom + "\"  UNITELOC=\"" + uniteLocation + "\" COUT=\"" + cout + "\" LISTRES=\"" + reservationList + "\" CREATEBY=\""+createdBy+"\" />";
     }
     
     public static String getNewId() {
@@ -44,6 +47,14 @@ public class Service {
 
     public static int getIdCounter() {
         return idCounter;
+    }
+    
+        public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
     public static void setIdCounter(int idCounter) {
