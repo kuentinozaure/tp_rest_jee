@@ -24,21 +24,25 @@ import javax.ws.rs.core.MediaType;
 @Path("users")
 public class Utilisateurs {
     
+    /**
+     * This method can get the list of all user of application
+     * @return the list of the user of application
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<Utilisateur> getListOfUserApplication() {
         Contexte context = new Contexte();
         ArrayList<Utilisateur> arrayUser = context.getUserList();
-//        String returnValue = "";
-//
-//        for (int i = 0; i < arrayUser.size(); i++) {
-//            returnValue += arrayUser.get(i).toXML() + "\n";
-//        }
-//        System.out.println(returnValue);
         return arrayUser;
     }
     
+    /**
+     * This method can create a new user
+     * @param  content is the content of the new user
+     * @return  the value of new user created
+     */
     @POST
+    @Produces(MediaType.TEXT_XML)
     public String createAnUser(String content) {
         Contexte context = new Contexte();
         ArrayList<Utilisateur> arrayUser = context.getUserList();
@@ -48,6 +52,11 @@ public class Utilisateurs {
         return user.toXML();
     }
     
+    /**
+     * This method can get a user by his id
+     * @param id is the id of the user passing by http params
+     * @return return the value of the user by his selected id
+     */
     @GET 
     @Path("/{id}")
     @Produces(MediaType.TEXT_XML)
@@ -64,6 +73,12 @@ public class Utilisateurs {
         return null;
     }
     
+    /**
+     * This method update user by his id
+     * @param id is the id of the user selected
+     * @param content is the new content of the user selected
+     * @return the user updated
+     */
     @PUT 
     @Path("/{id}")
     public String updateUserById (@PathParam("id") String id, String content) {
@@ -100,7 +115,11 @@ public class Utilisateurs {
         return returnValue;
     }
     
-        
+    /**
+     * This method delete user by his id
+     * @param id is the id of the user 
+     * @return the deleted user
+     */
     @DELETE 
     @Path("/{id}")
     @Produces(MediaType.TEXT_XML)
@@ -117,9 +136,5 @@ public class Utilisateurs {
             }
         }
         return null;
-    }
-    
-    
-    
-    
+    } 
 }
