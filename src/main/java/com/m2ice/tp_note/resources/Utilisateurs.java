@@ -31,7 +31,7 @@ public class Utilisateurs {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<Utilisateur> getListOfUserApplication() {
-        Contexte context = new Contexte();
+        Contexte context = Contexte.getSingleton();
         ArrayList<Utilisateur> arrayUser = context.getUserList();
         return arrayUser;
     }
@@ -44,7 +44,7 @@ public class Utilisateurs {
     @POST
     @Produces(MediaType.TEXT_XML)
     public String createAnUser(String content) {
-        Contexte context = new Contexte();
+        Contexte context = Contexte.getSingleton();
         ArrayList<Utilisateur> arrayUser = context.getUserList();
         Utilisateur user = new Utilisateur(content);
         arrayUser.add(user);
@@ -61,7 +61,7 @@ public class Utilisateurs {
     @Path("/{id}")
     @Produces(MediaType.TEXT_XML)
     public String getUserById (@PathParam("id") String id) {
-        Contexte context = new Contexte();
+        Contexte context = Contexte.getSingleton();
         ArrayList<Utilisateur> arrayUser = context.getUserList();
         
         for(int i =0; i< arrayUser.size(); i++) {
@@ -82,7 +82,7 @@ public class Utilisateurs {
     @PUT 
     @Path("/{id}")
     public String updateUserById (@PathParam("id") String id, String content) {
-        Contexte context = new Contexte();
+        Contexte context = Contexte.getSingleton();
         ArrayList<Utilisateur> arrayUser = context.getUserList();
         Utilisateur putUser = new Utilisateur(content);
         
@@ -124,7 +124,7 @@ public class Utilisateurs {
     @Path("/{id}")
     @Produces(MediaType.TEXT_XML)
     public String deleteUserById (@PathParam("id") String id) {
-        Contexte context = new Contexte();
+        Contexte context = Contexte.getSingleton();
         ArrayList<Utilisateur> arrayUser = context.getUserList();
         
         for(int i =0; i< arrayUser.size(); i++) {

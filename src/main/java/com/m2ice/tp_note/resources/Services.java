@@ -26,7 +26,6 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("services")
 public class Services {
-
     /**
      * This method return the entire list of service of the app
      *
@@ -37,7 +36,7 @@ public class Services {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<Service> getListOfServicesApplication(@QueryParam("cout") Integer cout) {
-        Contexte context = new Contexte();
+        Contexte context = Contexte.getSingleton();
         ArrayList<Service> arrayService = context.getServiceList();
         ArrayList<Service> arrayReturn = new ArrayList<>();
 
@@ -66,7 +65,7 @@ public class Services {
     @Path("/{id}")
     @Produces(MediaType.TEXT_XML)
     public String getServiceByID(@PathParam("id") String id) {
-        Contexte context = new Contexte();
+        Contexte context = Contexte.getSingleton();
         ArrayList<Service> arrayService = context.getServiceList();
 
         for (int i = 0; i < arrayService.size(); i++) {
@@ -88,7 +87,7 @@ public class Services {
     @Path("/users/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<Service> getServiceByUser(@PathParam("id") String id) {
-        Contexte context = new Contexte();
+        Contexte context = Contexte.getSingleton();
         ArrayList<Service> arrayService = context.getServiceList();
         ArrayList<Service> returnArray = new ArrayList<>();
 
@@ -113,7 +112,7 @@ public class Services {
     @Path("/users/{id}")
     @Produces(MediaType.TEXT_XML)
     public String createUserService(@PathParam("id") String id, String content) {
-        Contexte context = new Contexte();
+        Contexte context = Contexte.getSingleton();
         ArrayList<Service> arrayService = context.getServiceList();
         Service serv = new Service(content);
         serv.setCreatedBy(id);
@@ -132,7 +131,7 @@ public class Services {
     @PUT
     @Path("/{id}")
     public String updateServiceByID(@PathParam("id") String id, String content) {
-        Contexte context = new Contexte();
+        Contexte context = Contexte.getSingleton();
         ArrayList<Service> arrayService = context.getServiceList();
         Service putService = new Service(content);
 
@@ -180,7 +179,7 @@ public class Services {
     @Path("/{id}")
     @Produces(MediaType.TEXT_XML)
     public String deleteServiceById(@PathParam("id") String id) {
-        Contexte context = new Contexte();
+        Contexte context = Contexte.getSingleton();
         ArrayList<Service> arrayService = context.getServiceList();
 
         for (int i = 0; i < arrayService.size(); i++) {
@@ -202,7 +201,7 @@ public class Services {
     @GET
     @Path("/{id}/rendus")
     public ArrayList<Realisation> getRenduByService(@PathParam("id") String id) {
-        Contexte context = new Contexte();
+        Contexte context = Contexte.getSingleton();
         ArrayList<Realisation> arrayRealisation = context.getRealisationList();
         ArrayList<Realisation> returnArray = new ArrayList<>();
 
@@ -229,7 +228,7 @@ public class Services {
     @GET
     @Path("/{id}/rendus/{idrendu}")
     public Realisation getRealisationByID (@PathParam ("id")String idServ, @PathParam("idrendu")String idReal ) {
-        Contexte context = new Contexte();
+        Contexte context = Contexte.getSingleton();
         ArrayList<Realisation> arrayRealisation = context.getRealisationList();
         Realisation real = null;
         
@@ -255,7 +254,7 @@ public class Services {
     @GET
     @Path("/{id}/rendus/{idrendu}/facture")
     public String getFactureByRealisation (@PathParam ("id")String idServ, @PathParam("idrendu")String idReal) {
-        Contexte context = new Contexte();
+        Contexte context = Contexte.getSingleton();
         ArrayList<Realisation> arrayRealisation = context.getRealisationList();
        
         

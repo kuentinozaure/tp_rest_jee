@@ -13,6 +13,8 @@ import java.util.ArrayList;
  */
 public class Contexte {
 
+    private static Contexte singleton = null;
+    
     private ArrayList<Utilisateur> userList;
     private ArrayList<Service> serviceList;
     private ArrayList<Realisation> realisationList;
@@ -49,6 +51,14 @@ public class Contexte {
         this.realisationList.add(new Realisation("8",serviceList.get(2), userList.get(3), false));
     }
 
+    public static Contexte getSingleton() {
+        if (singleton == null) {
+            return singleton = new Contexte();
+        } 
+        
+        return singleton;
+    }
+    
     public ArrayList<Realisation> getRealisationList() {
         return realisationList;
     }
