@@ -10,7 +10,7 @@ package com.m2ice.util;
  * @author etu
  */
 public class Service {
-    static int idCounter=0;
+    static int idCounter=4;
     String nom, resume, uniteLocation,id, cout, reservationList,createdBy;
 
 

@@ -26,6 +26,7 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("services")
 public class Services {
+
     /**
      * This method return the entire list of service of the app
      *
@@ -194,7 +195,8 @@ public class Services {
     }
 
     /**
-     * This method can get all realisation  by a service
+     * This method can get all realisation by a service
+     *
      * @param id is the id of a service
      * @return a list of realisation by service
      */
@@ -218,57 +220,79 @@ public class Services {
 
         return returnArray;
     }
-    
+
     /**
      * This method can get by service id and realisation id a realisation
+     *
      * @param idServ is the id of service
-     * @param idReal  is the id of the realisation
+     * @param idReal is the id of the realisation
      * @return return a realisation by service id and realisation id
      */
     @GET
     @Path("/{id}/rendus/{idrendu}")
-    public Realisation getRealisationByID (@PathParam ("id")String idServ, @PathParam("idrendu")String idReal ) {
+    public Realisation getRealisationByID(@PathParam("id") String idServ, @PathParam("idrendu") String idReal) {
         Contexte context = Contexte.getSingleton();
         ArrayList<Realisation> arrayRealisation = context.getRealisationList();
         Realisation real = null;
-        
-         for (int i = 0; i < arrayRealisation.size(); i++) {
+
+        for (int i = 0; i < arrayRealisation.size(); i++) {
             // if id of service contained in the array of realisation
             if (arrayRealisation.get(i).getService().getId().equals(idServ)) {
                 // if the realisation is realised
                 if (arrayRealisation.get(i).getID().equals(idReal)) {
-                   real = arrayRealisation.get(i);
+                    real = arrayRealisation.get(i);
                 }
 
             }
         }
-         return real;
+        return real;
     }
-    
+
     /**
      * Generate a bill by service realisation
+     *
      * @param idServ is service id
      * @param idReal is realisation id
      * @return a bill of realisation by service
      */
     @GET
     @Path("/{id}/rendus/{idrendu}/facture")
-    public String getFactureByRealisation (@PathParam ("id")String idServ, @PathParam("idrendu")String idReal) {
+    public String getFactureByRealisation(@PathParam("id") String idServ, @PathParam("idrendu") String idReal) {
         Contexte context = Contexte.getSingleton();
         ArrayList<Realisation> arrayRealisation = context.getRealisationList();
-       
-        
-         for (int i = 0; i < arrayRealisation.size(); i++) {
+
+        for (int i = 0; i < arrayRealisation.size(); i++) {
             // if id of service contained in the array of realisation
             if (arrayRealisation.get(i).getService().getId().equals(idServ)) {
                 // if the realisation is realised
                 if (arrayRealisation.get(i).getID().equals(idReal)) {
-                   return new Facture(arrayRealisation.get(i)).toString();
+                    return new Facture(arrayRealisation.get(i)).toString();
                 }
 
             }
         }
         return null;
+    }
+
+    @PUT
+    @Path("/{id}/rendus/{idrendu}")
+    public Realisation updateRealisationByService(@PathParam("id") String idServ, @PathParam("idrendu") String idReal, String content) {
+        Contexte context = Contexte.getSingleton();
+        ArrayList<Realisation> arrayRealisation = context.getRealisationList();
+        Realisation real = null;
+
+        for (int i = 0; i < arrayRealisation.size(); i++) {
+            if (arrayRealisation.get(i).getService().getId().equals(idServ)) {
+
+                if (arrayRealisation.get(i).getID().equals(idReal)) {
+                    real = arrayRealisation.get(i);
+                    real.setEstRealisé(true);
+                    arrayRealisation.remove(i);
+                    arrayRealisation.add(real);
+                }
+            }
+        }
+        return real;
     }
 
 }
